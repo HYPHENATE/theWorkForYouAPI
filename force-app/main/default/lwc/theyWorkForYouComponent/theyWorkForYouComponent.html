@@ -1,0 +1,70 @@
+<template>
+    <template if:true={loading}>
+        <lightning-card>
+            <div class="slds-align_absolute-center" style="height:5rem">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner> 
+            </div>
+        </lightning-card>
+    </template>
+    <template if:false={loading}>
+        <template if:true={displayComponent}>
+            <lightning-card>
+                <div class="slds-text-heading_large slds-align_absolute-center">
+                    <strong>{constituencyName}</strong>
+                </div>
+                <template if:true={displayMPDetails}>
+                    <template for:each={mpDetails} for:item="mp">
+                        <lightning-layout key={mp.party} multiple-rows="true">
+                            <lightning-layout-item padding="around-small" size="4">
+                                <div class="slds-align_absolute-center">
+                                    <image src={mp.image} width={mp.image_width} height={mp.image_height} />
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="8">
+                                <a href={mp.url} target="_blank">{mp.full_name}</a>
+                                <p>{mp.party}</p>
+                                <template for:each={mp.office} for:item="role">
+                                    <p key={role.position}>{role.position}</p>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </template>
+                <template if:true={displayMLADetails}>
+                    <template if:true={mlaDetails}>
+                        <div class="slds-text-heading_small slds-align_absolute-center">
+                            <strong>Members of the Legislative Assembly</strong>
+                        </div>
+                        <template for:each={mlaDetails} for:item="mla">
+                            <lightning-layout key={mla.party} multiple-rows="true">
+                                <lightning-layout-item padding="horizontal-small" size="12">
+                                    <div class="slds-text-body_small">{mla.full_name} ({mla.party})</div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                </template>
+                <template if:true={displayMSPDetails}>
+                    <template if:true={mspDetails}>
+                        <div class="slds-text-heading_small slds-align_absolute-center">
+                            <strong>Members of the Scottish Parliament</strong>
+                        </div>
+                        <template for:each={mspDetails} for:item="msp">
+                            <lightning-layout key={msp.party} multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <p>{msp.full_name} ({msp.party})</p>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                </template>
+            </lightning-card>
+        </template>
+        <template if:false={displayComponent}>
+            <div class="slds-text-heading_large slds-align_absolute-center">
+                <strong>{errors}</strong>
+            </div>
+        </template>
+    </template>
+    
+</template>
